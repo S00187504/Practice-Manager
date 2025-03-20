@@ -1,0 +1,15 @@
+import { z } from "zod";
+
+
+//Zod used for validation
+
+export const UserFormValidation = z.object({
+    name: z
+      .string()
+      .min(2, "Must be at least 2 characters")
+      .max(50, "Cannot be more than 50 characters"),
+    email: z.string().email("Invalid email address"),
+    phone: z
+      .string()
+      .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
+  });

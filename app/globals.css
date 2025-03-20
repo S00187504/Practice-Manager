@@ -343,6 +343,7 @@
   background: #1a1d21;
   font-size: 14px;
   font-weight: 500;
+  color: white !important; /* Ensure text color is white */
 }
 
 .PhoneInputInput::placeholder {

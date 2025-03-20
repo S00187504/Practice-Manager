@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import MyFormField from "../MyFormField"
+import SubmitButton from "../ui/SubmitButton"
+import { useState } from "react"
+import { UserFormValidation } from "@/lib/validation"
+import { useRouter } from "next/navigation"
 
 export enum FieldType {
   INPUT = 'input',
@@ -27,28 +31,49 @@ export enum FieldType {
   SKELETON = 'skeleton',
 }
 
-//Zod used for validation
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
+// //Zod used for validation
+// const formSchema = z.object({
+//   username: z.string().min(2, {
+//     message: "Username must be at least 2 characters.",
+//   }),
+// })
 
 const PatientForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof UserFormValidation>>({
+    resolver: zodResolver(UserFormValidation),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
     mode: "onChange",
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
+    setIsLoading(true);
+
+    try {
+      // const userData = {
+      //   name,
+      //   email,
+      //   phone
+      // };
+      // const newUser = await createUser(userData);
+
+      // if (newUser) {
+      //   router.push(`/patients/${newUser.$id}/register`);
+      // }
+    } catch (error){
+      console.log(error);
+
+    }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
+    //console.log(values)
   }
   
   return (
@@ -88,6 +113,7 @@ const PatientForm = () => {
           name="phone"
           label="Phone number"
           placeholder="(094) 123-4567"
+          //className="text-white" 
           />
           {/* <FormField
             control={form.control}
@@ -109,7 +135,7 @@ const PatientForm = () => {
               </FormItem>
             )}
           /> */}
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">Submit</Button>
+           <SubmitButton isLoading={isLoading}>Submit</SubmitButton>
         </form>
       </Form>
     </div>

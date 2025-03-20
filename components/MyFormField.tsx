@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { E164Number } from 'libphonenumber-js';
 import {
   Form,
   FormControl,
@@ -72,7 +73,7 @@ const FieldRenderer  = ({field, props} : {field: any; props: CustomProps}) => {
               withCountryCallingCode
               value={field.value as E164Number | undefined}
               onChange={field.onChange}
-              className="input-phone text-black"
+              className="input-phone"
             />
           </FormControl>
         );
